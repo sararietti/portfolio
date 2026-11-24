@@ -4,7 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sara Rietti's Portfolio — Social Media Manager &amp; Creadora de Contenido</title>
+  <meta name="description" content="Portfolio interactivo de Sara Rietti — Social Media Manager &amp; Creadora de Contenido. Estrategia digital, creación de contenido y casos de éxito." />
+  <link rel="canonical" href="https://sararietti.github.io/portfolio/" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+  <!-- Open Graph / LinkedIn & WhatsApp Preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Sara Rietti's Portfolio" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:url" content="https://sararietti.github.io/portfolio/" />
+  <meta property="og:title" content="Sara Rietti — Social Media Manager &amp; Creadora de Contenido" />
+  <meta property="og:description" content="Explora mi portfolio interactivo estilo escritorio: estrategia de redes, creación de contenido y resultados reales en L'Augustina, Mecal Pro, Kisori Matcha y Formació Miró." />
+  <meta property="og:image" content="https://sararietti.github.io/portfolio/foto_sara.jpg" />
+  <meta property="og:image:alt" content="Sara Rietti — Social Media Manager &amp; Creadora de Contenido" />
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Sara Rietti — Social Media Manager &amp; Creadora de Contenido" />
+  <meta name="twitter:description" content="Explora mi portfolio interactivo estilo escritorio: estrategia de redes, creación de contenido y resultados reales." />
+  <meta name="twitter:image" content="https://sararietti.github.io/portfolio/foto_sara.jpg" />
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -72,11 +90,12 @@
       background: linear-gradient(165deg, #fff9be 0%, #fff19c 100%);
       box-shadow: 2px 8px 20px rgba(40, 30, 15, 0.09), 0 1px 3px rgba(0, 0, 0, 0.05);
       transform: rotate(-2deg);
-      transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease;
+      transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease, opacity 0.25s ease;
     }
     .sticky-note:hover {
       transform: rotate(-0.5deg) scale(1.015);
       box-shadow: 4px 12px 26px rgba(40, 30, 15, 0.13);
+      opacity: 1 !important;
     }
 
     .todo-item {
@@ -125,11 +144,23 @@
       transform: rotate(-30deg) translateY(-1px);
     }
 
-    /* macOS Window Animations */
+    /* macOS Window Sizing & Animations (Native CSS ensures instant synchronous measurement before Tailwind CDN) */
     .mac-window {
+      width: 92vw;
+      max-width: 96vw;
       box-shadow: 0 24px 64px rgba(32, 22, 28, 0.18), 0 2px 10px rgba(0, 0, 0, 0.08);
       will-change: transform, opacity;
     }
+    .mac-window.is-maximized {
+      width: 96vw !important;
+      max-width: 1152px !important;
+    }
+    @media (max-width: 639px) {
+      .mac-window {
+        width: 95vw;
+      }
+    }
+
     .window-open {
       animation: winOpen 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
@@ -205,6 +236,24 @@
       user-select: text;
     }
 
+    /* Medium Desktop / Tablet: More subtle Sticky Note */
+    @media (max-width: 1180px) and (min-width: 768px) {
+      #sticky-note {
+        width: 188px;
+        padding: 10px 12px;
+        top: 44px;
+        left: 14px;
+        opacity: 0.82;
+      }
+      #sticky-note:hover {
+        opacity: 1;
+      }
+      #todo-list {
+        font-size: 10.5px;
+        line-height: 1.35;
+      }
+    }
+
     /* Mobile Responsive Layout */
     @media (max-width: 767px) {
       html, body {
@@ -249,9 +298,17 @@
       #sticky-note {
         position: static !important;
         order: 3;
-        width: 100%;
-        max-width: 20rem;
+        width: 90%;
+        max-width: 270px;
+        padding: 10px 14px;
+        opacity: 0.88;
         margin: 0.25rem auto 0;
+      }
+      #sticky-note:hover {
+        opacity: 1;
+      }
+      #todo-list {
+        font-size: 11px;
       }
     }
 
@@ -302,7 +359,7 @@
     <!-- ==================== YELLOW STICKY NOTE (TOP-LEFT) ==================== -->
     <aside id="sticky-note" class="sticky-note relative md:absolute md:top-14 md:left-7 z-20 w-64 p-4 rounded-[3px] mx-auto md:mx-0">
       <div class="mb-2">
-        <span class="font-semibold text-[11px] tracking-wider uppercase text-[#5e563d]">Tareas:</span>
+        <span class="font-semibold text-[11px] tracking-wider uppercase text-[#5e563d]">TO DO:</span>
       </div>
       <ul id="todo-list" class="space-y-1.5 text-xs leading-snug font-medium">
         <li onclick="toggleTodo(this)" class="todo-item is-done cursor-pointer">
@@ -678,7 +735,7 @@
     const WINDOWS_DATA = {
       about: {
         title: "Sobre mí — Sara Rietti",
-        width: "max-w-3xl",
+        maxWidth: "768px",
         content: `
           <div class="bg-[#ece9df] px-6 sm:px-10 py-8 border-b border-stone-300/70 text-center">
             <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-full mx-auto mb-4 overflow-hidden shadow-md border-4 border-white bg-pink-50">
@@ -706,7 +763,8 @@
                   <strong>Periodista de formación, creadora de contenido por vocación</strong> (y curiosa por naturaleza). Creo firmemente que la comunidad es el principal activo de cualquier marca; por eso, apuesto siempre por un <em>storytelling</em> honesto y unas interacciones cercanas.
                 </p>
                 <p>
-                  Aunque en el pasado los números y yo no fuéramos grandes aliados, hoy <strong>las métricas son mi mejor guía :)</strong></p>
+                  Aunque en el pasado los números y yo no fuéramos grandes aliados, hoy <strong>las métricas son mi mejor guía :)</strong>
+                </p>
               </div>
             </div>
 
@@ -745,7 +803,7 @@
 
       augustina: {
         title: "L'Augustina — Social Media Manager & Brand Strategist",
-        width: "max-w-4xl",
+        maxWidth: "896px",
         content: `
           <div class="bg-[#f4ebd0] px-6 sm:px-10 py-7 border-b border-stone-300/70">
             <div class="flex flex-wrap items-center justify-between gap-2">
@@ -815,7 +873,7 @@
 
       mecal: {
         title: "Mecal Pro — Asistenta de Prensa y Comunicación",
-        width: "max-w-4xl",
+        maxWidth: "896px",
         content: `
           <div class="bg-[#e8e8ea] px-6 sm:px-10 py-7 border-b border-stone-300/70">
             <div class="flex flex-wrap items-center justify-between gap-2">
@@ -857,7 +915,7 @@
 
       kisori: {
         title: "Kisori Matcha — Social Media Manager",
-        width: "max-w-4xl",
+        maxWidth: "896px",
         content: `
           <div class="bg-[#e8f2d8] px-6 sm:px-10 py-7 border-b border-stone-300/70">
             <div class="flex flex-wrap items-center justify-between gap-2">
@@ -878,19 +936,19 @@
                 <p>Aunque fue una etapa breve, supuso un reto muy intenso en el que pude encargarme de la <b>estrategia orgánica</b> de una marca en pleno crecimiento. Me ocupaba del diseño visual, la redacción de <em>copys</em>, campañas de <em>influencer marketing</em> (<em>gifted</em> y <em>paid</em>) e informes semanales de KPIs.</p>
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-1">
                   <div class="bg-white p-3.5 rounded-xl border border-stone-200 shadow-sm">
-                    <span class="text-[10px] text-stone-500 uppercase font-semibold">Comunidad IG</span>
-                    <p class="text-xl font-bold text-stone-900 mt-0.5">55,9k</p>
-                    <span class="text-[11px] text-emerald-700 font-medium">+270 seguidores en 4 meses</span>
-                  </div>
-                  <div class="bg-white p-3.5 rounded-xl border border-stone-200 shadow-sm">
                     <span class="text-[10px] text-stone-500 uppercase font-semibold">Engagement Rate</span>
                     <p class="text-xl font-bold text-stone-900 mt-0.5">6,4%</p>
-                    <span class="text-[11px] text-emerald-700 font-medium">Mantenido en 4 meses</span>
+                    <span class="text-[11px] text-emerald-700 font-medium">55,9k seguidores en Instagram</span>
                   </div>
-                  <div class="bg-white p-3.5 rounded-xl border border-stone-200 shadow-sm col-span-2 sm:col-span-1">
+                  <div class="bg-white p-3.5 rounded-xl border border-stone-200 shadow-sm">
                     <span class="text-[10px] text-stone-500 uppercase font-semibold">TikTok</span>
                     <p class="text-xl font-bold text-stone-900 mt-0.5">+79,6%</p>
-                    <span class="text-[11px] text-stone-600">+200k visualizaciones</span>
+                    <span class="text-[11px] text-emerald-700 font-medium">&gt;200k visualizaciones</span>
+                  </div>
+                  <div class="bg-white p-3.5 rounded-xl border border-stone-200 shadow-sm col-span-2 sm:col-span-1">
+                    <span class="text-[10px] text-stone-500 uppercase font-semibold">Influencer Mkt</span>
+                    <p class="text-xl font-bold text-stone-900 mt-0.5">Gifted &amp; Paid</p>
+                    <span class="text-[11px] text-stone-600">+270 seg. IG en 4 meses</span>
                   </div>
                 </div>
               </div>
@@ -913,7 +971,7 @@
 
       miro: {
         title: "Formació Miró — Community Manager",
-        width: "max-w-4xl",
+        maxWidth: "896px",
         content: `
           <div class="bg-[#fae8dc] px-6 sm:px-10 py-7 border-b border-stone-300/70">
             <div class="flex flex-wrap items-center justify-between gap-2">
@@ -931,7 +989,7 @@
                 <p class="text-xs text-stone-500 mt-1">3 líneas de negocio</p>
               </div>
               <div class="md:col-span-8 space-y-4 text-sm text-stone-700 leading-relaxed">
-                <p>En mi puesto actual asumo el reto de dar voz a <b>tres líneas de negocio diferentes</b> (<em>Formació Miró</em>, <em>Selectividad Miró</em> y <em>Miró Languages</em>), diseñando el plan de contenidos omnicanal (TikTok, Instagram, LinkedIn, YouTube y Facebook), apoyo en WordPress y gestión diaria de la comunidad.</p>
+                <p>En mi puesto actual asumo el reto de dar voz a <b>tres líneas de negocio diferentes</b> (<em>Formació Miró</em>, <em>Selectividad Miró</em> y <em>Miró Languages</em>), diseñando la <b>estrategia omnicanal</b> (TikTok, Instagram, LinkedIn, YouTube y Facebook), apoyo en WordPress y gestión diaria de la comunidad.</p>
                 <div class="flex flex-wrap gap-2 pt-1">
                   <span class="px-3 py-1 bg-white border border-stone-200 rounded-lg text-xs font-semibold text-stone-800">Formació Miró</span>
                   <span class="px-3 py-1 bg-white border border-stone-200 rounded-lg text-xs font-semibold text-stone-800">Selectividad Miró</span>
@@ -940,18 +998,18 @@
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-1">
                   <div class="bg-white p-3.5 rounded-xl border border-stone-200 shadow-sm">
                     <span class="text-[10px] text-stone-500 uppercase font-semibold">Selectividad Miró</span>
-                    <p class="text-xl font-bold text-stone-900 mt-0.5">+400k</p>
-                    <span class="text-[11px] text-emerald-700 font-medium">+146 seg. en 2 meses · Vídeos virales</span>
+                    <p class="text-xl font-bold text-stone-900 mt-0.5">&gt;400k</p>
+                    <span class="text-[11px] text-emerald-700 font-medium">+146 seg. · Visualizaciones TikTok</span>
                   </div>
                   <div class="bg-white p-3.5 rounded-xl border border-stone-200 shadow-sm">
                     <span class="text-[10px] text-stone-500 uppercase font-semibold">ROI Campañas</span>
                     <p class="text-xl font-bold text-stone-900 mt-0.5">300%</p>
-                    <span class="text-[11px] text-emerald-700 font-medium">8 inscripciones · 2.000 €/mes</span>
+                    <span class="text-[11px] text-emerald-700 font-medium">2.000 €/mes con 500 € pres.</span>
                   </div>
                   <div class="bg-white p-3.5 rounded-xl border border-stone-200 shadow-sm col-span-2 sm:col-span-1">
                     <span class="text-[10px] text-stone-500 uppercase font-semibold">Miró Languages</span>
                     <p class="text-xl font-bold text-stone-900 mt-0.5">6 matrículas</p>
-                    <span class="text-[11px] text-stone-600">27 nuevos seguidores orgánicos</span>
+                    <span class="text-[11px] text-stone-600">+27 seguidores orgánicos</span>
                   </div>
                 </div>
               </div>
@@ -966,7 +1024,7 @@
               <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 ${renderImageCard('formacio_miro/pau_2026.jpg', 'PAU 2026', 'Selectividad Miró')}
                 ${renderImageCard('formacio_miro/seleccion.png', 'Tendencia Selección Española', 'Selectividad Miró')}
-                ${renderImageCard('formacio_miro/pelis_angles.jpg', "TOP 5 películas para mejorar tu inglés", 'Miró Languages')}
+                ${renderImageCard('formacio_miro/pelis_angles.jpg', 'TOP 5 películas para mejorar tu inglés', 'Miró Languages')}
                 ${renderImageCard('formacio_miro/cursos_subvencionados.png', 'Cursos Subvencionados', 'Formació Miró')}
                 ${renderImageCard('formacio_miro/curs_intensiu.jpg', 'Anuncio Curso Intensivo', 'Selectividad Miró')}
                 ${renderImageCard('formacio_miro/formacion_verano.png', 'Formación de Verano', 'Formació Miró')}
@@ -995,7 +1053,7 @@
 
       'all-projects': {
         title: "Proyectos — Orden cronológico",
-        width: "max-w-2xl",
+        maxWidth: "672px",
         content: `
           <div class="p-6 sm:p-8 bg-[#f9f7f2]">
             <div class="mb-6 text-center">
@@ -1063,7 +1121,7 @@
 
       cv: {
         title: "SaraRietti_CV.pdf",
-        width: "max-w-4xl",
+        maxWidth: "896px",
         content: `
           <div class="flex flex-col bg-[#525659] h-[68vh] sm:h-[72vh]">
             <object data="SaraRietti_CV.pdf" type="application/pdf" class="w-full grow">
@@ -1086,7 +1144,7 @@
 
       contact: {
         title: "Contacto — Sara Rietti",
-        width: "max-w-lg",
+        maxWidth: "512px",
         content: `
           <div class="p-6 sm:p-8 bg-[#f9f7f2] text-center space-y-5 window-selectable">
             <span class="inline-block px-3 py-1 rounded-full bg-pink-100 text-pink-900 text-[11px] font-semibold tracking-wide uppercase">¡Conóceme!</span>
@@ -1118,7 +1176,7 @@
 
       trash: {
         title: "Papelera (No mirar)",
-        width: "max-w-md",
+        maxWidth: "448px",
         content: `
           <div class="p-7 sm:p-9 bg-[#f9f7f2] text-center space-y-4 window-selectable">
             <div class="text-5xl">🗑️</div>
@@ -1131,7 +1189,7 @@
     };
 
     /* =========================================================================
-       6. MACOS WINDOW MANAGER (CENTERED OPEN, FREE DRAG, TRAFFIC LIGHTS)
+       6. MACOS WINDOW MANAGER (NATIVE SIZING + SYNC CENTERING + FREE DRAG)
        ========================================================================= */
     let highestZ = 40;
     const openWindows = {};
@@ -1145,9 +1203,8 @@
       const rect = winEl.getBoundingClientRect();
       const w = rect.width || winEl.offsetWidth;
       const h = rect.height || winEl.offsetHeight;
-      const minTop = 40; // Below top menu bar
-      const left = Math.max(8, Math.round((window.innerWidth - w) / 2));
-      const top = Math.max(minTop, Math.round((window.innerHeight - h) / 2));
+      const left = Math.max(12, Math.round((window.innerWidth - w) / 2));
+      const top = Math.max(40, Math.round((window.innerHeight - h) / 2));
       winEl.style.left = `${left}px`;
       winEl.style.top = `${top}px`;
     }
@@ -1184,18 +1241,22 @@
 
     function toggleMaximizeWindow(id) {
       const winEl = openWindows[id];
+      const data = WINDOWS_DATA[id];
       if (!winEl) return;
       const isMax = winEl.dataset.maximized === 'true';
       if (!isMax) {
         winEl.dataset.prevLeft = winEl.style.left;
         winEl.dataset.prevTop = winEl.style.top;
         winEl.dataset.maximized = 'true';
-        winEl.classList.add('!w-[96vw]', '!max-w-6xl');
+        winEl.classList.add('is-maximized');
         centerWindow(winEl);
       } else {
         winEl.dataset.maximized = 'false';
-        winEl.classList.remove('!w-[96vw]', '!max-w-6xl');
-        winEl.style.left = winEl.dataset.prevLeft || '0px';
+        winEl.classList.remove('is-maximized');
+        if (data && data.maxWidth) {
+          winEl.style.maxWidth = data.maxWidth;
+        }
+        winEl.style.left = winEl.dataset.prevLeft || '12px';
         winEl.style.top = winEl.dataset.prevTop || '40px';
         clampWindowToViewport(winEl);
       }
@@ -1204,15 +1265,20 @@
     function openWindow(id) {
       const data = WINDOWS_DATA[id];
       if (!data) return;
+
       // Restore if already open (including if minimized) and ALWAYS re-center in normal mode
       if (openWindows[id]) {
         const existing = openWindows[id];
         existing.dataset.maximized = 'false';
-        existing.classList.remove('!w-[96vw]', '!max-w-6xl', 'window-minimize', 'window-close');
+        existing.classList.remove('is-maximized', 'window-minimize', 'window-close');
+        existing.style.maxWidth = data.maxWidth;
         existing.style.display = 'flex';
         centerWindow(existing);
         void existing.offsetWidth;
-        existing.classList.add('window-open');
+        requestAnimationFrame(() => {
+          centerWindow(existing);
+          existing.classList.add('window-open');
+        });
         bringToFront(existing);
         return;
       }
@@ -1222,7 +1288,8 @@
       const win = document.createElement('section');
       win.setAttribute('role', 'dialog');
       win.setAttribute('aria-label', data.title);
-      win.className = `mac-window pointer-events-auto fixed w-[95vw] sm:w-[92vw] ${data.width} max-w-[96vw] bg-[#f9f7f2] rounded-2xl border border-stone-300/90 overflow-hidden flex flex-col`;
+      win.className = 'mac-window pointer-events-auto fixed bg-[#f9f7f2] rounded-2xl border border-stone-300/90 overflow-hidden flex flex-col';
+      win.style.maxWidth = data.maxWidth;
       win.style.zIndex = highestZ;
       win.style.visibility = 'hidden';
 
@@ -1253,10 +1320,11 @@
       layer.appendChild(win);
       openWindows[id] = win;
 
-      // Measure & center 100% accurately before revealing with animation
+      // Measure & center synchronously using native CSS dimensions, then re-verify on next frame
       centerWindow(win);
       win.style.visibility = 'visible';
       requestAnimationFrame(() => {
+        centerWindow(win);
         win.classList.add('window-open');
       });
 
