@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sara Rietti's Portfolio — Social Media Manager &amp; Creadora de Contenido</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Instrument Serif (Editorial Italic) & Inter (Clean macOS UI) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-cream: #fdfbf9;
+      --grid-line: rgba(226, 178, 193, 0.28);
+      --accent-pink: #d87c9f;
+      --window-bg: #f9f7f2;
+      --todo-done: #9a9276;
+      --todo-active: #2c2a29;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-cream);
+      background-image:
+        linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+      background-size: 24px 24px;
+      color: #1f1d1d;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    .font-serif-editorial {
+      font-family: 'Instrument Serif', Georgia, serif;
+    }
+
+    /* Subtle macOS-style scrollbars inside windows */
+    .mac-scroll::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    .mac-scroll::-webkit-scrollbar-track {
+      background: #f1efe9;
+      border-left: 1px solid #e6e3dc;
+    }
+    .mac-scroll::-webkit-scrollbar-thumb {
+      background: #b0aca4;
+      border-radius: 9999px;
+      border: 2px solid #f1efe9;
+    }
+    .mac-scroll::-webkit-scrollbar-thumb:hover {
+      background: #8a867e;
+    }
+
+    /* Yellow Sticky Note */
+    .sticky-note {
+      background: linear-gradient(165deg, #fff9be 0%, #fff19c 100%);
+      box-shadow: 2px 8px 20px rgba(40, 30, 15, 0.09), 0 1px 3px rgba(0, 0, 0, 0.05);
+      transform: rotate(-2deg);
+      transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease;
+    }
+    .sticky-note:hover {
+      transform: rotate(-0.5deg) scale(1.015);
+      box-shadow: 4px 12px 26px rgba(40, 30, 15, 0.13);
+    }
+
+    .todo-item {
+      color: var(--todo-active);
+      transition: color 0.18s ease, opacity 0.18s ease;
+    }
+    .todo-item.is-done {
+      text-decoration: line-through;
+      color: var(--todo-done);
+    }
+
+    /* Magnetic Hero Letters */
+    .hero-ltr {
+      display: inline-block;
+      will-change: transform, margin-inline, color;
+      transform-origin: bottom center;
+      transition: transform 0.12s ease-out, margin 0.12s ease-out, color 0.15s ease;
+    }
+
+    /* Desktop Icons: 0deg straight, subtle float-up hover */
+    .desktop-icon {
+      cursor: pointer;
+      transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .desktop-icon:hover {
+      transform: translateY(-6px);
+    }
+    .desktop-icon:active {
+      transform: translateY(-2px) scale(0.97);
+    }
+    .desktop-icon:hover .icon-label {
+      background-color: rgba(255, 255, 255, 0.78);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    }
+    .icon-label {
+      border-radius: 6px;
+      transition: background-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    /* Trash lid animation: hinged at left so right side lifts cleanly upward */
+    .trash-lid {
+      transform-origin: 12px 14px;
+      transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .desktop-icon:hover .trash-lid {
+      transform: rotate(-30deg) translateY(-1px);
+    }
+
+    /* macOS Window Animations */
+    .mac-window {
+      box-shadow: 0 24px 64px rgba(32, 22, 28, 0.18), 0 2px 10px rgba(0, 0, 0, 0.08);
+      will-change: transform, opacity;
+    }
+    .window-open {
+      animation: winOpen 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes winOpen {
+      0% { opacity: 0; transform: scale(0.92) translateY(12px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .window-close {
+      animation: winClose 0.18s ease-out forwards;
+    }
+    @keyframes winClose {
+      0% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(0.94); }
+    }
+
+    .window-minimize {
+      transform-origin: bottom center !important;
+      animation: winMinimize 0.28s cubic-bezier(0.5, 0, 0.15, 1) forwards;
+    }
+    @keyframes winMinimize {
+      0% { opacity: 1; transform: scale(1) translateY(0); }
+      100% { opacity: 0; transform: scale(0.18) translateY(45vh); }
+    }
+
+    /* Bottom Dock & Custom Floating Pill Tooltips */
+    .dock-item {
+      position: relative;
+      transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .dock-item:hover {
+      transform: translateY(-8px) scale(1.09);
+    }
+    .dock-item:active {
+      transform: translateY(-2px) scale(0.96);
+    }
+    .dock-item::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%) translateY(6px);
+      background-color: rgba(24, 24, 27, 0.92);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      padding: 5px 11px;
+      border-radius: 9999px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+      transition: opacity 0.18s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .dock-item:hover::after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Lightbox fade-in */
+    #lightbox-modal.active {
+      display: flex;
+      animation: lbFade 0.2s ease-out forwards;
+    }
+    @keyframes lbFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Allow text selection inside window content */
+    .window-selectable {
+      user-select: text;
+    }
+
+    /* Mobile Responsive Layout */
+    @media (max-width: 767px) {
+      html, body {
+        overflow-y: auto;
+        overflow-x: hidden;
+        height: auto;
+        min-height: 100vh;
+      }
+      #desktop-area {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 3.5rem;
+        padding-bottom: 7rem;
+        gap: 1.75rem;
+      }
+      .hero-wrapper {
+        position: static !important;
+        order: 1;
+        margin: 0.75rem 0 0;
+        padding-bottom: 0 !important;
+      }
+      .desktop-icons-layer {
+        position: static !important;
+        order: 2;
+        pointer-events: auto !important;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.25rem 0.5rem;
+        justify-items: center;
+        width: 100%;
+        max-width: 440px;
+        padding: 0 0.5rem;
+      }
+      .desktop-icon-pos {
+        position: static !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+      }
+      #sticky-note {
+        position: static !important;
+        order: 3;
+        width: 100%;
+        max-width: 20rem;
+        margin: 0.25rem auto 0;
+      }
+    }
+
+    @media (max-width: 379px) {
+      .desktop-icons-layer {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== TOP MACOS MENU BAR ==================== -->
+  <header class="fixed top-0 left-0 right-0 h-8 bg-[#fdfbf9]/85 backdrop-blur-md border-b border-pink-200/45 z-50 px-4 flex items-center justify-between text-xs text-stone-800">
+    <!-- Left Navigation -->
+    <div class="flex items-center space-x-5">
+      <button onclick="openWindow('about')" class="flex items-center gap-1.5 font-semibold tracking-tight hover:text-[#d87c9f] transition-colors">
+        <span class="text-[#d87c9f] text-sm leading-none">✦</span>
+        <span>Sara Rietti's Portfolio</span>
+      </button>
+      <nav class="hidden sm:flex items-center space-x-4 font-normal text-stone-700">
+        <button onclick="openWindow('about')" class="hover:text-[#d87c9f] transition-colors">Sobre mí</button>
+        <button onclick="openWindow('contact')" class="hover:text-[#d87c9f] transition-colors">Contacto</button>
+      </nav>
+    </div>
+
+    <!-- Right Status Icons & Live Spanish Clock -->
+    <div class="flex items-center space-x-3 text-stone-700">
+      <!-- Wi-Fi Icon -->
+      <svg class="w-3.5 h-3.5 text-stone-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 011.06 0z" />
+      </svg>
+      <!-- Battery Icon -->
+      <div class="hidden sm:flex items-center gap-0.5" aria-hidden="true">
+        <div class="w-5 h-2.5 border border-stone-700 rounded-[3px] p-[1.5px] flex items-center">
+          <div class="bg-stone-700 h-full w-full rounded-[1px]"></div>
+        </div>
+        <div class="w-[2px] h-1 bg-stone-700 rounded-r-sm"></div>
+      </div>
+      <!-- Live Clock -->
+      <span id="live-clock" class="font-medium tracking-tight whitespace-nowrap text-stone-800">jue., 19 de nov., 14:51</span>
+    </div>
+  </header>
+
+  <!-- ==================== DESKTOP WORKSPACE ==================== -->
+  <main id="desktop-area" class="relative w-full min-h-screen md:h-screen pt-12 pb-24 px-4 overflow-x-hidden md:overflow-hidden">
+
+    <!-- ==================== YELLOW STICKY NOTE (TOP-LEFT) ==================== -->
+    <aside id="sticky-note" class="sticky-note relative md:absolute md:top-14 md:left-7 z-20 w-64 p-4 rounded-[3px] mx-auto md:mx-0">
+      <div class="mb-2">
+        <span class="font-semibold text-[11px] tracking-wider uppercase text-[#5e563d]">Tareas:</span>
+      </div>
+      <ul id="todo-list" class="space-y-1.5 text-xs leading-snug font-medium">
+        <li onclick="toggleTodo(this)" class="todo-item is-done cursor-pointer">
+          Transformar ideas en resultados
+        </li>
+        <li onclick="toggleTodo(this)" class="todo-item is-done cursor-pointer">
+          Aliarme con las métricas y los números :)
+        </li>
+        <li onclick="toggleTodo(this)" class="todo-item is-done cursor-pointer">
+          Grabar Reels para PAU 2026
+        </li>
+        <li onclick="toggleTodo(this)" class="todo-item cursor-pointer">
+          Beber un matcha
+        </li>
+        <li onclick="toggleTodo(this)" class="todo-item is-done cursor-pointer">
+          Construir el portfolio de mis sueños ✿
+        </li>
+      </ul>
+    </aside>
+
+    <!-- ==================== CENTRAL HERO TITLE ==================== -->
+    <div class="hero-wrapper pointer-events-none fixed inset-0 flex flex-col items-center justify-center z-10 px-4 text-center md:pb-10">
+      <h1 id="portfolio-title" class="font-serif-editorial italic text-7xl sm:text-[128px] md:text-[148px] leading-none text-stone-900 tracking-tight select-none flex items-baseline justify-center pointer-events-auto cursor-default">
+        portfolio.
+      </h1>
+      <p class="mt-3 flex flex-wrap items-center justify-center gap-2 text-xs sm:text-sm text-stone-500 font-normal">
+        <span>Sara Rietti</span>
+        <span class="text-[#d87c9f]">•</span>
+        <span>Social Media Manager &amp; Creadora de Contenido</span>
+      </p>
+    </div>
+
+    <!-- ==================== DESKTOP ICONS (STRAIGHT / SYMMETRICAL) ==================== -->
+    <div class="desktop-icons-layer absolute inset-0 pointer-events-none z-20">
+
+      <!-- 1. L'Augustina — Golden/Mustard Folder (Top-Left of title) -->
+      <div onclick="openWindow('augustina')" class="desktop-icon desktop-icon-pos pointer-events-auto absolute flex flex-col items-center w-24 text-center" style="top: 22%; left: 22%;">
+        <div class="w-16 h-14 flex items-center justify-center">
+          <svg viewBox="0 0 80 64" class="w-full h-full drop-shadow-sm" aria-hidden="true">
+            <path d="M4 12 C4 8, 7 6, 11 6 L28 6 C32 6, 34 10, 38 10 L69 10 C73 10, 76 13, 76 17 L76 54 C76 58, 73 60, 69 60 L11 60 C7 60, 4 58, 4 54 Z" fill="#c99e28"/>
+            <rect x="9" y="13" width="62" height="12" rx="2" fill="#ffffff"/>
+            <rect x="4" y="18" width="72" height="42" rx="6" fill="#e5c158"/>
+          </svg>
+        </div>
+        <span class="icon-label mt-1.5 px-2 py-0.5 text-[11px] leading-tight font-medium text-stone-800">
+          L'Augustina
+        </span>
+      </div>
+
+      <!-- 2. Formació Miró — Vibrant Orange Folder (Top-Right of title) -->
+      <div onclick="openWindow('miro')" class="desktop-icon desktop-icon-pos pointer-events-auto absolute flex flex-col items-center w-24 text-center" style="top: 22%; right: 22%;">
+        <div class="w-16 h-14 flex items-center justify-center">
+          <svg viewBox="0 0 80 64" class="w-full h-full drop-shadow-sm" aria-hidden="true">
+            <path d="M4 12 C4 8, 7 6, 11 6 L28 6 C32 6, 34 10, 38 10 L69 10 C73 10, 76 13, 76 17 L76 54 C76 58, 73 60, 69 60 L11 60 C7 60, 4 58, 4 54 Z" fill="#d95300"/>
+            <rect x="9" y="13" width="62" height="12" rx="2" fill="#ffffff"/>
+            <rect x="4" y="18" width="72" height="42" rx="6" fill="#ff7a1a"/>
+          </svg>
+        </div>
+        <span class="icon-label mt-1.5 px-2 py-0.5 text-[11px] leading-tight font-medium text-stone-800">
+          Formació Miró
+        </span>
+      </div>
+
+      <!-- 3. Mecal Pro — Sleek Charcoal/Black Folder (Bottom-Left under title) -->
+      <div onclick="openWindow('mecal')" class="desktop-icon desktop-icon-pos pointer-events-auto absolute flex flex-col items-center w-24 text-center" style="bottom: 22%; left: 31%;">
+        <div class="w-16 h-14 flex items-center justify-center">
+          <svg viewBox="0 0 80 64" class="w-full h-full drop-shadow-sm" aria-hidden="true">
+            <path d="M4 12 C4 8, 7 6, 11 6 L28 6 C32 6, 34 10, 38 10 L69 10 C73 10, 76 13, 76 17 L76 54 C76 58, 73 60, 69 60 L11 60 C7 60, 4 58, 4 54 Z" fill="#18181b"/>
+            <rect x="9" y="13" width="62" height="12" rx="2" fill="#ffffff"/>
+            <rect x="4" y="18" width="72" height="42" rx="6" fill="#323236"/>
+          </svg>
+        </div>
+        <span class="icon-label mt-1.5 px-2 py-0.5 text-[11px] leading-tight font-medium text-stone-800">
+          Mecal Pro
+        </span>
+      </div>
+
+      <!-- 4. Kisori Matcha — Neon Matcha Green Folder (Bottom-Right under title) -->
+      <div onclick="openWindow('kisori')" class="desktop-icon desktop-icon-pos pointer-events-auto absolute flex flex-col items-center w-24 text-center" style="bottom: 22%; right: 31%;">
+        <div class="w-16 h-14 flex items-center justify-center">
+          <svg viewBox="0 0 80 64" class="w-full h-full drop-shadow-sm" aria-hidden="true">
+            <path d="M4 12 C4 8, 7 6, 11 6 L28 6 C32 6, 34 10, 38 10 L69 10 C73 10, 76 13, 76 17 L76 54 C76 58, 73 60, 69 60 L11 60 C7 60, 4 58, 4 54 Z" fill="#a4cc05"/>
+            <rect x="9" y="13" width="62" height="12" rx="2" fill="#ffffff"/>
+            <rect x="4" y="18" width="72" height="42" rx="6" fill="#d8fa4d"/>
+          </svg>
+        </div>
+        <span class="icon-label mt-1.5 px-2 py-0.5 text-[11px] leading-tight font-medium text-stone-800">
+          Kisori Matcha
+        </span>
+      </div>
+
+      <!-- 5. SaraRietti_CV.pdf — Clean Straight Rectangular PDF Icon (Left Side) -->
+      <div onclick="openWindow('cv')" class="desktop-icon desktop-icon-pos pointer-events-auto absolute flex flex-col items-center w-28 text-center" style="top: 52%; left: 10%;">
+        <div class="w-14 h-16 flex items-center justify-center">
+          <svg viewBox="0 0 64 72" class="w-full h-full drop-shadow-sm" aria-hidden="true">
+            <!-- Rectangular paper body with subtle stroke -->
+            <path d="M12 4 H40 L54 18 V64 C54 66.2 52.2 68 50 68 H12 C9.8 68 8 66.2 8 64 V8 C8 5.8 9.8 4 12 4 Z" fill="#e2e6e9" stroke="#cbd5e1" stroke-width="1.5"/>
+            <!-- Darker folded top-right corner -->
+            <path d="M40 4 V15 C40 16.7 41.3 18 43 18 H54 L40 4 Z" fill="#94a3b8"/>
+            <!-- Bold Red PDF Badge -->
+            <rect x="4" y="34" width="44" height="18" rx="3.5" fill="#ef4444"/>
+            <text x="26" y="47.2" font-family="Inter, sans-serif" font-size="12.5" font-weight="800" fill="#ffffff" text-anchor="middle" letter-spacing="0.6">PDF</text>
+          </svg>
+        </div>
+        <span class="icon-label mt-1.5 px-2 py-0.5 text-[11px] leading-tight font-medium text-stone-800">
+          SaraRietti_CV.pdf
+        </span>
+      </div>
+
+      <!-- 6. Papelera (No mirar) — Bottom-Right Corner with Hinged Lid Hover -->
+      <div onclick="openWindow('trash')" class="desktop-icon desktop-icon-pos pointer-events-auto absolute flex flex-col items-center w-24 text-center" style="bottom: 11%; right: 7%;">
+        <div class="w-14 h-16 flex items-center justify-center">
+          <svg viewBox="-12 -22 84 92" class="w-full h-full drop-shadow-sm overflow-visible" aria-hidden="true">
+            <!-- Lid + Handle hinged at left (12, 14) so right side lifts cleanly -->
+            <g class="trash-lid">
+              <path d="M23 10 V6 C23 4.3 24.5 3 26.5 3 H33.5 C35.5 3 37 4.3 37 6 V10" fill="none" stroke="#c8c4ce" stroke-width="3" stroke-linecap="round"/>
+              <rect x="11" y="9" width="38" height="5.5" rx="2.75" fill="#d5d2dc" stroke="#bdb8c4" stroke-width="1"/>
+            </g>
+            <!-- Trash Can Body -->
+            <path d="M14 16 H46 L43 58 C42.8 60.5 40.8 62.5 38.3 62.5 H21.7 C19.2 62.5 17.2 60.5 17 58 L14 16 Z" fill="#eceaf0" stroke="#c5c1cc" stroke-width="1.5"/>
+            <!-- Vertical Ribs -->
+            <line x1="22.5" y1="24" x2="23.5" y2="53" stroke="#c1bdc9" stroke-width="2.2" stroke-linecap="round"/>
+            <line x1="30" y1="24" x2="30" y2="53" stroke="#c1bdc9" stroke-width="2.2" stroke-linecap="round"/>
+            <line x1="37.5" y1="24" x2="36.5" y2="53" stroke="#c1bdc9" stroke-width="2.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="icon-label mt-1 px-2 py-0.5 text-[11px] leading-tight font-medium text-stone-800">
+          Papelera<br><span class="text-stone-500 font-normal">(No mirar)</span>
+        </span>
+      </div>
+
+    </div>
+
+    <!-- ==================== WINDOWS LAYER ==================== -->
+    <div id="windows-layer" class="fixed inset-0 pointer-events-none z-30"></div>
+
+  </main>
+
+  <!-- ==================== BOTTOM MACOS DOCK ==================== -->
+  <nav aria-label="Dock de aplicaciones" class="fixed bottom-3.5 left-1/2 -translate-x-1/2 z-50">
+    <div class="bg-white/75 backdrop-blur-xl border border-stone-200/90 shadow-[0_12px_36px_rgba(30,20,25,0.12)] rounded-[24px] px-3 py-2 flex items-center space-x-3">
+
+      <!-- 1. Pink Smile -> Sobre mí -->
+      <button onclick="openWindow('about')" data-tooltip="Sobre mí" aria-label="Sobre mí" class="dock-item w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-[#f5a3b7] flex items-center justify-center text-white shadow-sm">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="9"/>
+          <path stroke-linecap="round" d="M9 10h.01M15 10h.01"/>
+          <path stroke-linecap="round" d="M8.5 14.5c1 1.5 2.5 2 3.5 2s2.5-.5 3.5-2"/>
+        </svg>
+      </button>
+
+      <!-- 2. Blue 2x2 Grid -> Proyectos -->
+      <button onclick="openWindow('all-projects')" data-tooltip="Proyectos" aria-label="Proyectos" class="dock-item w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-[#76b5e3] flex items-center justify-center text-white shadow-sm">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <rect x="4" y="4" width="6" height="6" rx="1.2"/>
+          <rect x="14" y="4" width="6" height="6" rx="1.2"/>
+          <rect x="4" y="14" width="6" height="6" rx="1.2"/>
+          <rect x="14" y="14" width="6" height="6" rx="1.2"/>
+        </svg>
+      </button>
+
+      <!-- 3. Purple Mail -> Contacto -->
+      <button onclick="openWindow('contact')" data-tooltip="Contacto" aria-label="Contacto" class="dock-item w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-[#b9a0e6] flex items-center justify-center text-white shadow-sm">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <rect x="3" y="5" width="18" height="14" rx="2"/>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 7l9 6 9-6"/>
+        </svg>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- ==================== FULLSCREEN IMAGE LIGHTBOX MODAL ==================== -->
+  <div id="lightbox-modal" onclick="closeLightbox(event)" class="hidden fixed inset-0 z-[100] bg-stone-950/85 backdrop-blur-sm items-center justify-center p-4 sm:p-8">
+    <button onclick="closeLightbox(event, true)" aria-label="Cerrar vista previa" class="fixed top-5 right-5 w-10 h-10 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+    <div onclick="event.stopPropagation()" class="max-w-4xl w-full flex flex-col items-center">
+      <img id="lightbox-img" src="" alt="" class="max-h-[78vh] max-w-full rounded-xl shadow-2xl object-contain bg-stone-900" />
+      <p id="lightbox-caption" class="mt-4 text-sm text-stone-200 font-medium text-center px-4"></p>
+    </div>
+  </div>
+
+  <!-- ==================== TOAST NOTIFICATION ==================== -->
+  <div id="toast" class="fixed top-12 right-5 z-[90] bg-stone-900 text-white text-xs px-4 py-2.5 rounded-xl shadow-lg opacity-0 pointer-events-none transition-opacity duration-300 flex items-center gap-2">
+    <span class="text-[#d87c9f]">✦</span>
+    <span id="toast-message">Copiado al portapapeles</span>
+  </div>
+
+  <!-- ==================== JAVASCRIPT ==================== -->
+  <script>
+    /* =========================================================================
+       1. LIVE SPANISH CLOCK IN MENU BAR
+       ========================================================================= */
+    function updateClock() {
+      const now = new Date();
+      const days = ['dom.', 'lun.', 'mar.', 'mié.', 'jue.', 'vie.', 'sáb.'];
+      const months = ['ene.', 'feb.', 'mar.', 'abr.', 'may.', 'jun.', 'jul.', 'ago.', 'sep.', 'oct.', 'nov.', 'dic.'];
+      const dayName = days[now.getDay()];
+      const dayNum = now.getDate();
+      const monthName = months[now.getMonth()];
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const clockEl = document.getElementById('live-clock');
+      if (clockEl) {
+        clockEl.textContent = `${dayName}, ${dayNum} de ${monthName}, ${hours}:${minutes}`;
+      }
+    }
+    updateClock();
+    setInterval(updateClock, 15000);
+
+    /* =========================================================================
+       2. STICKY NOTE TO-DO TOGGLE
+       ========================================================================= */
+    function toggleTodo(item) {
+      item.classList.toggle('is-done');
+    }
+
+    /* =========================================================================
+       3. TOAST & CLIPBOARD HELPERS
+       ========================================================================= */
+    let toastTimer = null;
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const text = document.getElementById('toast-message');
+      text.textContent = msg;
+      toast.classList.remove('opacity-0');
+      toast.classList.add('opacity-100');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0');
+      }, 2600);
+    }
+
+    function copyEmail() {
+      const email = 'riettimonfortsara@gmail.com';
+      const ta = document.createElement('textarea');
+      ta.value = email;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand('copy');
+        showToast('Email copiado: ' + email);
+      } catch (e) {
+        showToast('Email: ' + email);
+      }
+      document.body.removeChild(ta);
+    }
+
+    /* =========================================================================
+       4. IMAGE FALLBACK & FULLSCREEN LIGHTBOX
+       ========================================================================= */
+    function handleProjectImageError(imgEl, relPath) {
+      imgEl.style.display = 'none';
+      const fallback = imgEl.nextElementSibling;
+      if (fallback) {
+        fallback.classList.remove('hidden');
+        fallback.classList.add('flex');
+      }
+    }
+
+    function openLightbox(src, caption, cardEl) {
+      // Do not open lightbox if the image failed to load and fallback is showing
+      if (cardEl) {
+        const img = cardEl.querySelector('img');
+        if (img && img.style.display === 'none') {
+          showToast('Archivo local listo para subir: ' + src);
+          return;
+        }
+      }
+      const modal = document.getElementById('lightbox-modal');
+      const lbImg = document.getElementById('lightbox-img');
+      const lbCap = document.getElementById('lightbox-caption');
+      lbImg.src = src;
+      lbImg.alt = caption;
+      lbCap.textContent = caption;
+      modal.classList.remove('hidden');
+      modal.classList.add('active');
+    }
+
+    function closeLightbox(event, force = false) {
+      if (force || event.target.id === 'lightbox-modal') {
+        const modal = document.getElementById('lightbox-modal');
+        modal.classList.remove('active');
+        modal.classList.add('hidden');
+        document.getElementById('lightbox-img').src = '';
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const modal = document.getElementById('lightbox-modal');
+        if (modal.classList.contains('active')) {
+          closeLightbox(e, true);
+        }
+      }
+    });
+
+    /* Helper to render clickable project image cards with graceful fallback */
+    function renderImageCard(src, title, subtitle) {
+      const safeCaption = `${title}${subtitle ? ' — ' + subtitle : ''}`.replace(/'/g, "\\'");
+      return `
+        <div onclick="openLightbox('${src}', '${safeCaption}', this)" class="group cursor-pointer bg-white rounded-xl border border-stone-200/90 overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col">
+          <div class="relative aspect-[4/5] bg-stone-100 overflow-hidden flex items-center justify-center">
+            <img
+              src="${src}"
+              alt="${title}"
+              loading="lazy"
+              onerror="handleProjectImageError(this, '${src}')"
+              class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300"
+            />
+            <!-- Stylish Fallback when previewing without local folders -->
+            <div class="hidden flex-col items-center justify-center text-center p-5 w-full h-full bg-gradient-to-br from-stone-50 to-stone-100 text-stone-500">
+              <div class="w-10 h-10 rounded-full bg-white shadow-sm border border-stone-200 flex items-center justify-center mb-2.5 text-stone-400">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                  <rect x="3" y="5" width="18" height="14" rx="2"/>
+                  <circle cx="8.5" cy="10" r="1.5"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 15l-5-5L5 19"/>
+                </svg>
+              </div>
+              <span class="text-[11px] font-semibold text-stone-700 leading-tight">${title}</span>
+              <code class="mt-2 px-2 py-0.5 rounded bg-white border border-stone-200 text-[10px] text-stone-500 break-all">${src}</code>
+            </div>
+            <!-- Hover zoom pill -->
+            <span class="absolute top-2.5 right-2.5 px-2 py-1 rounded-full bg-stone-900/70 text-white text-[10px] font-medium opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm">
+              Ampliar ↗
+            </span>
+          </div>
+          <div class="p-3 bg-white border-t border-stone-100">
+            <h4 class="text-xs font-semibold text-stone-900 leading-snug">${title}</h4>
+            ${subtitle ? `<p class="text-[11px] text-stone-500 mt-0.5">${subtitle}</p>` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    /* Helper to render vertical Reel / Video cards (supports .mp4 and .mov, no raw file paths) */
+    function renderVideoCard(src, title, badge) {
+      const isMov = src.toLowerCase().endsWith('.mov');
+      const sources = isMov
+        ? `<source src="${src}" type="video/mp4"><source src="${src}" type="video/quicktime">`
+        : `<source src="${src}" type="video/mp4">`;
+
+      return `
+        <div class="bg-stone-900 rounded-2xl overflow-hidden border border-stone-800 shadow-sm flex flex-col">
+          <div class="relative aspect-[9/16] bg-black flex items-center justify-center">
+            <video controls playsinline preload="metadata" class="w-full h-full object-cover">
+              ${sources}
+              Tu navegador no soporta la reproducción directa de este vídeo.
+            </video>
+            <span class="pointer-events-none absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-black/65 text-white text-[10px] font-medium backdrop-blur-sm">
+              ${badge}
+            </span>
+          </div>
+          <div class="p-3 bg-stone-900 text-white flex items-center justify-between gap-2">
+            <div class="min-w-0">
+              <h4 class="text-xs font-semibold text-stone-100 truncate">${title}</h4>
+            </div>
+            ${isMov ? `<a href="${src}" target="_blank" rel="noopener" class="shrink-0 px-2 py-1 rounded-md bg-white/10 hover:bg-white/20 text-[10px] text-stone-200 transition-colors">Abrir ↗</a>` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    /* =========================================================================
+       5. WINDOWS CONTENT DATABASE (ALL 33 REAL DRIVE FILES INTEGRATED)
+       ========================================================================= */
+    const WINDOWS_DATA = {
+      about: {
+        title: "Sobre mí — Sara Rietti",
+        width: "max-w-3xl",
+        content: `
+          <div class="bg-[#ece9df] px-6 sm:px-10 py-8 border-b border-stone-300/70 text-center">
+            <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-full mx-auto mb-4 overflow-hidden shadow-md border-4 border-white bg-pink-50">
+              <img
+                src="foto_sara.jpg"
+                alt="Sara Rietti"
+                onerror="this.onerror=null; this.src='https://placehold.co/320x320/f8e1e7/7a4b5a?text=Sara+Rietti';"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <span class="inline-block px-3 py-1 rounded-full bg-white/85 text-stone-700 text-xs font-medium mb-2.5">¡Hola, soy Sara! ✦</span>
+            <h2 class="font-serif-editorial italic text-4xl sm:text-5xl text-stone-900 leading-tight">Social Media Manager &amp; Creadora de Contenido</h2>
+            <p class="mt-2 text-stone-600 text-sm max-w-xl mx-auto">Transformando ideas y comunidades en resultados reales.</p>
+          </div>
+
+          <div class="p-6 sm:p-10 space-y-8 bg-[#f9f7f2] window-selectable">
+            <!-- Bio -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 pb-8 border-b border-stone-200">
+              <div class="md:col-span-4">
+                <h3 class="text-base font-semibold text-stone-900">Sobre mí</h3>
+                <p class="text-xs text-stone-500 mt-1">Periodismo + Vocación digital</p>
+              </div>
+              <div class="md:col-span-8 space-y-3.5 text-sm text-stone-700 leading-relaxed">
+                <p>
+                  <strong>Periodista de formación, creadora de contenido por vocación</strong> (y curiosa por naturaleza). Creo firmemente que la comunidad es el principal activo de cualquier marca; por eso, apuesto siempre por un <em>storytelling</em> honesto y unas interacciones cercanas.
+                </p>
+                <p>
+                  Aunque en el pasado los números y yo no fuéramos grandes aliados, hoy <strong>las métricas son mi mejor guía :)</strong></p>
+              </div>
+            </div>
+
+            <!-- Philosophy & Core Skills -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8">
+              <div class="md:col-span-4">
+                <h3 class="text-base font-semibold text-stone-900">Mi enfoque</h3>
+                <p class="text-xs text-stone-500 mt-1">Primero estrategia, luego contenido</p>
+              </div>
+              <div class="md:col-span-8 space-y-4 text-sm text-stone-700 leading-relaxed">
+                <p>
+                  Mi enfoque equilibra el <strong>análisis de datos</strong>, el uso de herramientas tecnológicas y la <strong>sensibilidad cultural</strong> para crear contenido con valor real y resultados sostenibles a largo plazo.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+                  <div class="bg-white p-4 rounded-xl border border-stone-200/80">
+                    <span class="text-[#d87c9f] font-semibold text-sm">01</span>
+                    <h4 class="font-semibold text-stone-900 text-xs mt-1">Estrategia de redes</h4>
+                    <p class="text-[11px] text-stone-600 mt-1">Objetivos claros y narrativa alineada con la identidad de marca.</p>
+                  </div>
+                  <div class="bg-white p-4 rounded-xl border border-stone-200/80">
+                    <span class="text-[#d87c9f] font-semibold text-sm">02</span>
+                    <h4 class="font-semibold text-stone-900 text-xs mt-1">Innovación de contenido</h4>
+                    <p class="text-[11px] text-stone-600 mt-1">Formatos dinámicos que captan el interés de forma orgánica.</p>
+                  </div>
+                  <div class="bg-white p-4 rounded-xl border border-stone-200/80">
+                    <span class="text-[#d87c9f] font-semibold text-sm">03</span>
+                    <h4 class="font-semibold text-stone-900 text-xs mt-1">Análisis de métricas</h4>
+                    <p class="text-[11px] text-stone-600 mt-1">Escucha activa en tiempo real y sentido de pertenencia.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `
+      },
+
+      augustina: {
+        title: "L'Augustina — Social Media Manager & Brand Strategist",
+        width: "max-w-4xl",
+        content: `
+          <div class="bg-[#f4ebd0] px-6 sm:px-10 py-7 border-b border-stone-300/70">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="text-xs uppercase tracking-widest text-amber-900/70 font-semibold">Branding &amp; Retail</span>
+              <span class="px-3 py-1 rounded-full bg-amber-900/10 text-amber-950 text-xs font-medium">Social Media Manager &amp; Brand Strategist</span>
+            </div>
+            <h2 class="font-serif-editorial italic text-5xl sm:text-6xl leading-tight text-stone-900 mt-2">L'Augustina</h2>
+          </div>
+
+          <div class="p-6 sm:p-10 space-y-8 bg-[#f9f7f2] window-selectable">
+            <!-- Summary & Impact -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 pb-8 border-b border-stone-200">
+              <div class="md:col-span-4">
+                <h3 class="text-base font-semibold text-stone-900">Funciones e Impacto</h3>
+                <p class="text-xs text-stone-500 mt-1">Dirección creativa + Comunidad</p>
+              </div>
+              <div class="md:col-span-8 space-y-4 text-sm text-stone-700 leading-relaxed">
+                <p>Lo que comenzó como unas prácticas curriculares y un Trabajo de Fin de Máster se convirtió en un rediseño integral de la marca en redes sociales.</p>
+                <p>Asumí el liderazgo de la <b>estrategia de contenido</b> y la <b>dirección creativa</b>, construyendo una identidad visual cohesionada que impulsó el posicionamiento de la marca y la fidelización de la comunidad.</p>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-1">
+                  <div class="bg-white p-3.5 rounded-xl border border-stone-200 shadow-sm">
+                    <span class="text-[10px] text-stone-500 uppercase font-semibold">Engagement</span>
+                    <p class="text-xl font-bold text-stone-900 mt-0.5">2,4% → 3,8%</p>
+                    <span class="text-[11px] text-emerald-700 font-medium">Crecimiento orgánico</span>
+                  </div>
+                  <div class="bg-white p-3.5 rounded-xl border border-stone-200 shadow-sm">
+                    <span class="text-[10px] text-stone-500 uppercase font-semibold">Identidad</span>
+                    <p class="text-xl font-bold text-stone-900 mt-0.5">Rebranding</p>
+                    <span class="text-[11px] text-stone-600">Dirección creativa</span>
+                  </div>
+                  <div class="bg-white p-3.5 rounded-xl border border-stone-200 shadow-sm col-span-2 sm:col-span-1">
+                    <span class="text-[10px] text-stone-500 uppercase font-semibold">Campañas Top</span>
+                    <p class="text-xl font-bold text-stone-900 mt-0.5">Jellycats &amp; Smiski</p>
+                    <span class="text-[11px] text-stone-600">Comunidad fidelizada</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4-Column Image Grid (4 images) -->
+            <div class="pb-8 border-b border-stone-200">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-base font-semibold text-stone-900">Contenido Visual &amp; Campañas</h3>
+                <span class="text-xs text-stone-500">Haz clic en cualquier imagen para ampliar</span>
+              </div>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                ${renderImageCard('la_augustina/jellycat_signo.png', '¿Qué Jellycat eres según tu signo?', 'Tendencia')}
+                ${renderImageCard('la_augustina/jellycat_queso.jpg', 'Fotografía de producto — Jellycat', 'Tendencia &amp; anuncio (nuevo producto)')}
+                ${renderImageCard('la_augustina/conoce_smisky.png', 'Campaña Conoce a los Smiski', 'Storytelling de producto')}
+                ${renderImageCard('la_augustina/jellycat_diamadre.png', 'Campaña Día de la Madre — Jellycat', 'Efeméride')}
+              </div>
+            </div>
+
+            <!-- 4-Column Video / Reel Grid (4 videos) -->
+            <div>
+              <h3 class="text-base font-semibold text-stone-900 mb-4">Reels</h3>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                ${renderVideoCard('la_augustina/espalda_jellycat.mov', 'Tendencia Jellycat', 'Reel · Tendencia')}
+                ${renderVideoCard('la_augustina/video_promo_miffy.mov', 'Vídeo Promo Miffy', 'Reel · Promo')}
+                ${renderVideoCard('la_augustina/top10_jellycat.mov', 'Top 10 Jellycat', 'Reel · Tendencia')}
+                ${renderVideoCard('la_augustina/video_promo_jellycat.mov', 'Vídeo Promo Jellycat', 'Reel · Promo')}
+              </div>
+            </div>
+          </div>
+        `
+      },
+
+      mecal: {
+        title: "Mecal Pro — Asistenta de Prensa y Comunicación",
+        width: "max-w-4xl",
+        content: `
+          <div class="bg-[#e8e8ea] px-6 sm:px-10 py-7 border-b border-stone-300/70">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="text-xs uppercase tracking-widest text-stone-600 font-semibold">Cultura &amp; Festivales · Barcelona</span>
+              <span class="px-3 py-1 rounded-full bg-stone-900 text-white text-xs font-medium">Asistenta de Prensa y Comunicación</span>
+            </div>
+            <h2 class="font-serif-editorial italic text-5xl sm:text-6xl leading-tight text-stone-900 mt-2">Mecal Pro</h2>
+          </div>
+
+          <div class="p-6 sm:p-10 space-y-8 bg-[#f9f7f2] window-selectable">
+            <!-- Summary -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 pb-8 border-b border-stone-200">
+              <div class="md:col-span-4">
+                <h3 class="text-base font-semibold text-stone-900">Funciones e Impacto</h3>
+                <p class="text-xs text-stone-500 mt-1">Prensa, Eventos &amp; Redes</p>
+              </div>
+              <div class="md:col-span-8 space-y-3 text-sm text-stone-700 leading-relaxed">
+                <p>Formé parte del equipo de comunicación del festival, combinando la relación con medios, la organización de eventos y la gestión de contenidos digitales.</p>
+                <p>Mi trabajo abarcaba desde la <b>elaboración de materiales de prensa</b> y el seguimiento de la cobertura mediática hasta la coordinación de acciones de comunicación y la <b>gestión de redes sociales</b> durante el festival.</p>
+              </div>
+            </div>
+
+            <!-- 4-Column Image Grid (4 images) -->
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-base font-semibold text-stone-900">Cobertura, Exposiciones &amp; Eventos</h3>
+                <span class="text-xs text-stone-500">Haz clic para ampliar</span>
+              </div>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                ${renderImageCard('mecal/festival_dia1.jpg', 'Festival Mecal Pro — Día 1', 'Cobertura en directo')}
+                ${renderImageCard('mecal/atavico.jpg', 'Exposición ATAVICO. El Inicio — Mecal HUB Factory', 'Exposición & Comunicación')}
+                ${renderImageCard('mecal/gatuno_perruno.jpg', 'Especial Gatuno & Perruno', 'Programación especial')}
+                ${renderImageCard('mecal/orsay.jpg', 'Evento & Proyección — Orsay', 'Organización & Prensa')}
+              </div>
+            </div>
+          </div>
+        `
+      },
+
+      kisori: {
+        title: "Kisori Matcha — Social Media Manager",
+        width: "max-w-4xl",
+        content: `
+          <div class="bg-[#e8f2d8] px-6 sm:px-10 py-7 border-b border-stone-300/70">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="text-xs uppercase tracking-widest text-lime-900/70 font-semibold">Alimentación &amp; Lifestyle</span>
+              <span class="px-3 py-1 rounded-full bg-lime-900/10 text-lime-950 text-xs font-medium">Social Media Manager</span>
+            </div>
+            <h2 class="font-serif-editorial italic text-5xl sm:text-6xl leading-tight text-stone-900 mt-2">Kisori Matcha</h2>
+          </div>
+
+          <div class="p-6 sm:p-10 space-y-8 bg-[#f9f7f2] window-selectable">
+            <!-- Summary -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 pb-8 border-b border-stone-200">
+              <div class="md:col-span-4">
+                <h3 class="text-base font-semibold text-stone-900">Funciones e Impacto</h3>
+                <p class="text-xs text-stone-500 mt-1">Organic &amp; Paid Social</p>
+              </div>
+              <div class="md:col-span-8 space-y-4 text-sm text-stone-700 leading-relaxed">
+                <p>Aunque fue una etapa breve, supuso un reto muy intenso en el que pude encargarme de la <b>estrategia orgánica</b> de una marca en pleno crecimiento. Me ocupaba del diseño visual, la redacción de <em>copys</em>, campañas de <em>influencer marketing</em> (<em>gifted</em> y <em>paid</em>) e informes semanales de KPIs.</p>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-1">
+                  <div class="bg-white p-3.5 rounded-xl border border-stone-200 shadow-sm">
+                    <span class="text-[10px] text-stone-500 uppercase font-semibold">Comunidad IG</span>
+                    <p class="text-xl font-bold text-stone-900 mt-0.5">55,9k</p>
+                    <span class="text-[11px] text-emerald-700 font-medium">+270 seguidores en 4 meses</span>
+                  </div>
+                  <div class="bg-white p-3.5 rounded-xl border border-stone-200 shadow-sm">
+                    <span class="text-[10px] text-stone-500 uppercase font-semibold">Engagement Rate</span>
+                    <p class="text-xl font-bold text-stone-900 mt-0.5">6,4%</p>
+                    <span class="text-[11px] text-emerald-700 font-medium">Mantenido en 4 meses</span>
+                  </div>
+                  <div class="bg-white p-3.5 rounded-xl border border-stone-200 shadow-sm col-span-2 sm:col-span-1">
+                    <span class="text-[10px] text-stone-500 uppercase font-semibold">TikTok</span>
+                    <p class="text-xl font-bold text-stone-900 mt-0.5">+79,6%</p>
+                    <span class="text-[11px] text-stone-600">+200k visualizaciones</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4-Column Vertical Video Gallery (5 videos) -->
+            <div>
+              <h3 class="text-base font-semibold text-stone-900 mb-4">Reels &amp; Campañas de Vídeo</h3>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                ${renderVideoCard('kisori/black_friday1.mp4', 'Campaña Black Friday I', 'Black Friday')}
+                ${renderVideoCard('kisori/black_friday2.mp4', 'Campaña Black Friday II', 'Black Friday')}
+                ${renderVideoCard('kisori/descuento.mp4', 'Promoción & Descuento', 'Performance')}
+                ${renderVideoCard('kisori/descuento_amazon.mp4', 'Campaña Descuento Amazon', 'Amazon Ads')}
+                ${renderVideoCard('kisori/regalos_navidad.mov', 'Campaña Regalos de Navidad', 'Navidad')}
+              </div>
+            </div>
+          </div>
+        `
+      },
+
+      miro: {
+        title: "Formació Miró — Community Manager",
+        width: "max-w-4xl",
+        content: `
+          <div class="bg-[#fae8dc] px-6 sm:px-10 py-7 border-b border-stone-300/70">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="text-xs uppercase tracking-widest text-orange-900/70 font-semibold">Formación &amp; Educación</span>
+              <span class="px-3 py-1 rounded-full bg-orange-900/10 text-orange-950 text-xs font-medium">Community Manager</span>
+            </div>
+            <h2 class="font-serif-editorial italic text-5xl sm:text-6xl leading-tight text-stone-900 mt-2">Formació Miró</h2>
+          </div>
+
+          <div class="p-6 sm:p-10 space-y-8 bg-[#f9f7f2] window-selectable">
+            <!-- Summary -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 pb-8 border-b border-stone-200">
+              <div class="md:col-span-4">
+                <h3 class="text-base font-semibold text-stone-900">Funciones e Impacto</h3>
+                <p class="text-xs text-stone-500 mt-1">3 líneas de negocio</p>
+              </div>
+              <div class="md:col-span-8 space-y-4 text-sm text-stone-700 leading-relaxed">
+                <p>En mi puesto actual asumo el reto de dar voz a <b>tres líneas de negocio diferentes</b> (<em>Formació Miró</em>, <em>Selectividad Miró</em> y <em>Miró Languages</em>), diseñando el plan de contenidos omnicanal (TikTok, Instagram, LinkedIn, YouTube y Facebook), apoyo en WordPress y gestión diaria de la comunidad.</p>
+                <div class="flex flex-wrap gap-2 pt-1">
+                  <span class="px-3 py-1 bg-white border border-stone-200 rounded-lg text-xs font-semibold text-stone-800">Formació Miró</span>
+                  <span class="px-3 py-1 bg-white border border-stone-200 rounded-lg text-xs font-semibold text-stone-800">Selectividad Miró</span>
+                  <span class="px-3 py-1 bg-white border border-stone-200 rounded-lg text-xs font-semibold text-stone-800">Miró Languages</span>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-1">
+                  <div class="bg-white p-3.5 rounded-xl border border-stone-200 shadow-sm">
+                    <span class="text-[10px] text-stone-500 uppercase font-semibold">Selectividad Miró</span>
+                    <p class="text-xl font-bold text-stone-900 mt-0.5">+400k</p>
+                    <span class="text-[11px] text-emerald-700 font-medium">+146 seg. en 2 meses · Vídeos virales</span>
+                  </div>
+                  <div class="bg-white p-3.5 rounded-xl border border-stone-200 shadow-sm">
+                    <span class="text-[10px] text-stone-500 uppercase font-semibold">ROI Campañas</span>
+                    <p class="text-xl font-bold text-stone-900 mt-0.5">300%</p>
+                    <span class="text-[11px] text-emerald-700 font-medium">8 inscripciones · 2.000 €/mes</span>
+                  </div>
+                  <div class="bg-white p-3.5 rounded-xl border border-stone-200 shadow-sm col-span-2 sm:col-span-1">
+                    <span class="text-[10px] text-stone-500 uppercase font-semibold">Miró Languages</span>
+                    <p class="text-xl font-bold text-stone-900 mt-0.5">6 matrículas</p>
+                    <span class="text-[11px] text-stone-600">27 nuevos seguidores orgánicos</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4-Column Image Grid (8 images) -->
+            <div class="pb-8 border-b border-stone-200">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-base font-semibold text-stone-900">Posts &amp; Carruseles</h3>
+                <span class="text-xs text-stone-500">Haz clic para ampliar</span>
+              </div>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                ${renderImageCard('formacio_miro/pau_2026.jpg', 'PAU 2026', 'Selectividad Miró')}
+                ${renderImageCard('formacio_miro/seleccion.png', 'Tendencia Selección Española', 'Selectividad Miró')}
+                ${renderImageCard('formacio_miro/pelis_angles.jpg', "TOP 5 películas para mejorar tu inglés", 'Miró Languages')}
+                ${renderImageCard('formacio_miro/cursos_subvencionados.png', 'Cursos Subvencionados', 'Formació Miró')}
+                ${renderImageCard('formacio_miro/curs_intensiu.jpg', 'Anuncio Curso Intensivo', 'Selectividad Miró')}
+                ${renderImageCard('formacio_miro/formacion_verano.png', 'Formación de Verano', 'Formació Miró')}
+                ${renderImageCard('formacio_miro/descuentos.png', 'Descuentos para universitarios', 'Selectividad Miró')}
+                ${renderImageCard('formacio_miro/frases_angles.png', 'Frases en Inglés', 'Miró Languages')}
+              </div>
+            </div>
+
+            <!-- 4-Column Vertical Video Grid (8 videos) -->
+            <div>
+              <h3 class="text-base font-semibold text-stone-900 mb-4">Reels</h3>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                ${renderVideoCard('formacio_miro/selectividad_madrid.mp4', 'Anuncio Selectividad Madrid', 'Selectividad Miró')}
+                ${renderVideoCard('formacio_miro/pizarra_ingles.mp4', 'Entrevista callejera', 'Miró Languages')}
+                ${renderVideoCard('formacio_miro/im_fine.mp4', 'Contenido educativo', 'Miró Languages')}
+                ${renderVideoCard('formacio_miro/video_ari.mp4', 'Contenido explicativo', 'Formació Miró')}
+                ${renderVideoCard('formacio_miro/pap_2026.mov', 'Entrevista PAP 2026', 'Selectividad Miró')}
+                ${renderVideoCard('formacio_miro/canvi_estructura_castella.mp4', 'Noticia Selectividad', 'Selectividad Miró')}
+                ${renderVideoCard('formacio_miro/residencia_uni.mov', 'Residencia Universitaria', 'Colaboración')}
+                ${renderVideoCard('formacio_miro/raking_metodes.mp4', 'Ranking métodos estudio', 'Selectividad Miró')}
+              </div>
+            </div>
+          </div>
+        `
+      },
+
+      'all-projects': {
+        title: "Proyectos — Orden cronológico",
+        width: "max-w-2xl",
+        content: `
+          <div class="p-6 sm:p-8 bg-[#f9f7f2]">
+            <div class="mb-6 text-center">
+              <h2 class="font-serif-editorial italic text-3xl sm:text-4xl text-stone-900">Mis Proyectos</h2>
+              <p class="text-xs sm:text-sm text-stone-500 mt-1">Explora cada carpeta en orden cronológico</p>
+            </div>
+
+            <!-- 2x2 Chronological Grid: Top: L'Augustina, Mecal Pro | Bottom: Kisori Matcha, Formació Miró -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- 1. L'Augustina -->
+              <button onclick="openWindow('augustina')" class="group text-left bg-white p-5 rounded-2xl border border-stone-200 hover:border-[#c99e28] hover:shadow-md transition-all flex items-center gap-4">
+                <svg viewBox="0 0 80 64" class="w-14 h-12 shrink-0 drop-shadow-sm group-hover:-translate-y-1 transition-transform">
+                  <path d="M4 12 C4 8, 7 6, 11 6 L28 6 C32 6, 34 10, 38 10 L69 10 C73 10, 76 13, 76 17 L76 54 C76 58, 73 60, 69 60 L11 60 C7 60, 4 58, 4 54 Z" fill="#c99e28"/>
+                  <rect x="9" y="13" width="62" height="12" rx="2" fill="#ffffff"/>
+                  <rect x="4" y="18" width="72" height="42" rx="6" fill="#e5c158"/>
+                </svg>
+                <div class="min-w-0">
+                  <h3 class="text-sm font-bold text-stone-900">L'Augustina</h3>
+                  <p class="text-xs text-stone-500 mt-0.5">SMM &amp; Brand Strategist</p>
+                </div>
+              </button>
+
+              <!-- 2. Mecal Pro -->
+              <button onclick="openWindow('mecal')" class="group text-left bg-white p-5 rounded-2xl border border-stone-200 hover:border-stone-800 hover:shadow-md transition-all flex items-center gap-4">
+                <svg viewBox="0 0 80 64" class="w-14 h-12 shrink-0 drop-shadow-sm group-hover:-translate-y-1 transition-transform">
+                  <path d="M4 12 C4 8, 7 6, 11 6 L28 6 C32 6, 34 10, 38 10 L69 10 C73 10, 76 13, 76 17 L76 54 C76 58, 73 60, 69 60 L11 60 C7 60, 4 58, 4 54 Z" fill="#18181b"/>
+                  <rect x="9" y="13" width="62" height="12" rx="2" fill="#ffffff"/>
+                  <rect x="4" y="18" width="72" height="42" rx="6" fill="#323236"/>
+                </svg>
+                <div class="min-w-0">
+                  <h3 class="text-sm font-bold text-stone-900">Mecal Pro</h3>
+                  <p class="text-xs text-stone-500 mt-0.5">Prensa y Comunicación</p>
+                </div>
+              </button>
+
+              <!-- 3. Kisori Matcha -->
+              <button onclick="openWindow('kisori')" class="group text-left bg-white p-5 rounded-2xl border border-stone-200 hover:border-[#a4cc05] hover:shadow-md transition-all flex items-center gap-4">
+                <svg viewBox="0 0 80 64" class="w-14 h-12 shrink-0 drop-shadow-sm group-hover:-translate-y-1 transition-transform">
+                  <path d="M4 12 C4 8, 7 6, 11 6 L28 6 C32 6, 34 10, 38 10 L69 10 C73 10, 76 13, 76 17 L76 54 C76 58, 73 60, 69 60 L11 60 C7 60, 4 58, 4 54 Z" fill="#a4cc05"/>
+                  <rect x="9" y="13" width="62" height="12" rx="2" fill="#ffffff"/>
+                  <rect x="4" y="18" width="72" height="42" rx="6" fill="#d8fa4d"/>
+                </svg>
+                <div class="min-w-0">
+                  <h3 class="text-sm font-bold text-stone-900">Kisori Matcha</h3>
+                  <p class="text-xs text-stone-500 mt-0.5">Social Media Manager</p>
+                </div>
+              </button>
+
+              <!-- 4. Formació Miró -->
+              <button onclick="openWindow('miro')" class="group text-left bg-white p-5 rounded-2xl border border-stone-200 hover:border-[#ff7a1a] hover:shadow-md transition-all flex items-center gap-4">
+                <svg viewBox="0 0 80 64" class="w-14 h-12 shrink-0 drop-shadow-sm group-hover:-translate-y-1 transition-transform">
+                  <path d="M4 12 C4 8, 7 6, 11 6 L28 6 C32 6, 34 10, 38 10 L69 10 C73 10, 76 13, 76 17 L76 54 C76 58, 73 60, 69 60 L11 60 C7 60, 4 58, 4 54 Z" fill="#d95300"/>
+                  <rect x="9" y="13" width="62" height="12" rx="2" fill="#ffffff"/>
+                  <rect x="4" y="18" width="72" height="42" rx="6" fill="#ff7a1a"/>
+                </svg>
+                <div class="min-w-0">
+                  <h3 class="text-sm font-bold text-stone-900">Formació Miró</h3>
+                  <p class="text-xs text-stone-500 mt-0.5">Community Manager (Actual)</p>
+                </div>
+              </button>
+            </div>
+          </div>
+        `
+      },
+
+      cv: {
+        title: "SaraRietti_CV.pdf",
+        width: "max-w-4xl",
+        content: `
+          <div class="flex flex-col bg-[#525659] h-[68vh] sm:h-[72vh]">
+            <object data="SaraRietti_CV.pdf" type="application/pdf" class="w-full grow">
+              <div class="flex flex-col items-center justify-center h-full p-8 text-center text-stone-200 bg-stone-800">
+                <p class="text-sm font-medium mb-2">Tu navegador no puede mostrar el PDF integrado aquí.</p>
+                <p class="text-xs text-stone-400">Usa los botones de abajo para abrirlo en una nueva pestaña o descargarlo directamente.</p>
+              </div>
+            </object>
+            <div class="bg-white px-6 py-3.5 flex flex-wrap items-center gap-3 shrink-0 border-t border-stone-200">
+              <a href="SaraRietti_CV.pdf" target="_blank" rel="noopener" class="px-5 py-2.5 rounded-full bg-stone-900 text-white text-xs font-semibold tracking-wide hover:bg-stone-800 transition-colors shadow-sm">
+                Abrir en nueva pestaña
+              </a>
+              <a href="SaraRietti_CV.pdf" download="SaraRietti_CV.pdf" class="px-5 py-2.5 rounded-full bg-white border border-stone-300 text-stone-800 text-xs font-semibold tracking-wide hover:bg-stone-50 transition-colors shadow-sm">
+                Descargar
+              </a>
+            </div>
+          </div>
+        `
+      },
+
+      contact: {
+        title: "Contacto — Sara Rietti",
+        width: "max-w-lg",
+        content: `
+          <div class="p-6 sm:p-8 bg-[#f9f7f2] text-center space-y-5 window-selectable">
+            <span class="inline-block px-3 py-1 rounded-full bg-pink-100 text-pink-900 text-[11px] font-semibold tracking-wide uppercase">¡Conóceme!</span>
+            <h2 class="font-serif-editorial italic text-4xl sm:text-5xl text-stone-900 leading-tight">
+              ¿Lo mejor?<br>¡Aún no lo hemos hecho!
+            </h2>
+            <p class="text-xs sm:text-sm text-stone-600 max-w-sm mx-auto leading-relaxed">
+              Si buscas dar forma a la estrategia digital de tu marca, crear contenido con propósito o simplemente tomar un matcha virtual, escríbeme:
+            </p>
+
+            <div class="bg-white p-3.5 rounded-2xl border border-stone-200 shadow-sm flex items-center justify-between gap-2">
+              <span class="text-xs sm:text-sm font-medium text-stone-800 truncate pl-1">riettimonfortsara@gmail.com</span>
+              <button onclick="copyEmail()" class="px-3.5 py-1.5 rounded-xl bg-pink-100 hover:bg-pink-200 text-pink-950 text-xs font-semibold transition-colors shrink-0">
+                Copiar
+              </button>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3 justify-center pt-1">
+              <a href="mailto:riettimonfortsara@gmail.com" class="px-6 py-2.5 rounded-full bg-stone-900 text-white text-xs font-semibold hover:bg-stone-800 transition-colors">
+                Enviar correo ✉️
+              </a>
+              <a href="https://www.linkedin.com/search/results/all/?keywords=Sara%20Rietti" target="_blank" rel="noopener noreferrer" class="px-6 py-2.5 rounded-full bg-[#0A66C2] text-white text-xs font-semibold hover:opacity-95 transition-opacity">
+                LinkedIn ↗
+              </a>
+            </div>
+          </div>
+        `
+      },
+
+      trash: {
+        title: "Papelera (No mirar)",
+        width: "max-w-md",
+        content: `
+          <div class="p-7 sm:p-9 bg-[#f9f7f2] text-center space-y-4 window-selectable">
+            <div class="text-5xl">🗑️</div>
+            <p class="text-sm sm:text-[15px] text-stone-700 font-medium leading-relaxed">
+              ¡Has mirado! Aquí están todas mis ideas descartadas, 200 fotos borrosas y vídeos con una cuestionable calidad de audio. Todo buen proyecto debe empezar por algo.
+            </p>
+          </div>
+        `
+      }
+    };
+
+    /* =========================================================================
+       6. MACOS WINDOW MANAGER (CENTERED OPEN, FREE DRAG, TRAFFIC LIGHTS)
+       ========================================================================= */
+    let highestZ = 40;
+    const openWindows = {};
+
+    function bringToFront(winEl) {
+      highestZ++;
+      winEl.style.zIndex = highestZ;
+    }
+
+    function centerWindow(winEl) {
+      const rect = winEl.getBoundingClientRect();
+      const w = rect.width || winEl.offsetWidth;
+      const h = rect.height || winEl.offsetHeight;
+      const minTop = 40; // Below top menu bar
+      const left = Math.max(8, Math.round((window.innerWidth - w) / 2));
+      const top = Math.max(minTop, Math.round((window.innerHeight - h) / 2));
+      winEl.style.left = `${left}px`;
+      winEl.style.top = `${top}px`;
+    }
+
+    function clampWindowToViewport(winEl) {
+      const rect = winEl.getBoundingClientRect();
+      const clampedTop = Math.max(36, rect.top);
+      winEl.style.top = `${clampedTop}px`;
+    }
+
+    function closeWindow(id) {
+      const winEl = openWindows[id];
+      if (!winEl) return;
+      // Pause any playing videos inside before closing
+      winEl.querySelectorAll('video').forEach(v => v.pause());
+      winEl.classList.remove('window-open', 'window-minimize');
+      winEl.classList.add('window-close');
+      setTimeout(() => {
+        winEl.remove();
+        delete openWindows[id];
+      }, 180);
+    }
+
+    function minimizeWindow(id) {
+      const winEl = openWindows[id];
+      if (!winEl) return;
+      winEl.querySelectorAll('video').forEach(v => v.pause());
+      winEl.classList.remove('window-open', 'window-close');
+      winEl.classList.add('window-minimize');
+      setTimeout(() => {
+        winEl.style.display = 'none';
+      }, 280);
+    }
+
+    function toggleMaximizeWindow(id) {
+      const winEl = openWindows[id];
+      if (!winEl) return;
+      const isMax = winEl.dataset.maximized === 'true';
+      if (!isMax) {
+        winEl.dataset.prevLeft = winEl.style.left;
+        winEl.dataset.prevTop = winEl.style.top;
+        winEl.dataset.maximized = 'true';
+        winEl.classList.add('!w-[96vw]', '!max-w-6xl');
+        centerWindow(winEl);
+      } else {
+        winEl.dataset.maximized = 'false';
+        winEl.classList.remove('!w-[96vw]', '!max-w-6xl');
+        winEl.style.left = winEl.dataset.prevLeft || '0px';
+        winEl.style.top = winEl.dataset.prevTop || '40px';
+        clampWindowToViewport(winEl);
+      }
+    }
+
+    function openWindow(id) {
+      const data = WINDOWS_DATA[id];
+      if (!data) return;
+      // Restore if already open (including if minimized) and ALWAYS re-center in normal mode
+      if (openWindows[id]) {
+        const existing = openWindows[id];
+        existing.dataset.maximized = 'false';
+        existing.classList.remove('!w-[96vw]', '!max-w-6xl', 'window-minimize', 'window-close');
+        existing.style.display = 'flex';
+        centerWindow(existing);
+        void existing.offsetWidth;
+        existing.classList.add('window-open');
+        bringToFront(existing);
+        return;
+      }
+
+      highestZ++;
+      const layer = document.getElementById('windows-layer');
+      const win = document.createElement('section');
+      win.setAttribute('role', 'dialog');
+      win.setAttribute('aria-label', data.title);
+      win.className = `mac-window pointer-events-auto fixed w-[95vw] sm:w-[92vw] ${data.width} max-w-[96vw] bg-[#f9f7f2] rounded-2xl border border-stone-300/90 overflow-hidden flex flex-col`;
+      win.style.zIndex = highestZ;
+      win.style.visibility = 'hidden';
+
+      win.innerHTML = `
+        <!-- macOS Titlebar -->
+        <div class="win-header bg-white px-4 py-3 border-b border-stone-200/80 flex items-center justify-between cursor-move select-none shrink-0">
+          <div class="flex items-center space-x-2">
+            <button onclick="closeWindow('${id}')" aria-label="Cerrar" class="w-3.5 h-3.5 rounded-full bg-[#ff5f56] border border-[#e0443e] hover:brightness-95 transition"></button>
+            <button onclick="minimizeWindow('${id}')" aria-label="Minimizar" class="w-3.5 h-3.5 rounded-full bg-[#ffbd2e] border border-[#dea123] hover:brightness-95 transition"></button>
+            <button onclick="toggleMaximizeWindow('${id}')" aria-label="Maximizar" class="w-3.5 h-3.5 rounded-full bg-[#27c93f] border border-[#1aab29] hover:brightness-95 transition"></button>
+          </div>
+          <div class="flex items-center gap-1.5 text-xs font-medium text-stone-800 truncate px-3">
+            <span class="text-[#d87c9f]">✦</span>
+            <span class="truncate">${data.title}</span>
+          </div>
+          <div class="w-12 shrink-0"></div>
+        </div>
+
+        <!-- Scrollable Content -->
+        <div class="max-h-[80vh] sm:max-h-[74vh] overflow-y-auto mac-scroll">
+          ${data.content}
+        </div>
+      `;
+
+      win.addEventListener('mousedown', () => bringToFront(win));
+      win.addEventListener('touchstart', () => bringToFront(win), { passive: true });
+
+      layer.appendChild(win);
+      openWindows[id] = win;
+
+      // Measure & center 100% accurately before revealing with animation
+      centerWindow(win);
+      win.style.visibility = 'visible';
+      requestAnimationFrame(() => {
+        win.classList.add('window-open');
+      });
+
+      makeDraggable(win);
+    }
+
+    function makeDraggable(win) {
+      const header = win.querySelector('.win-header');
+      let isDragging = false;
+      let startX = 0, startY = 0, initialLeft = 0, initialTop = 0;
+
+      function startDrag(clientX, clientY, target) {
+        if (target.closest('button')) return;
+        isDragging = true;
+        bringToFront(win);
+        const rect = win.getBoundingClientRect();
+        win.style.left = `${rect.left}px`;
+        win.style.top = `${rect.top}px`;
+        startX = clientX;
+        startY = clientY;
+        initialLeft = rect.left;
+        initialTop = rect.top;
+      }
+
+      function moveDrag(clientX, clientY) {
+        if (!isDragging) return;
+        const dx = clientX - startX;
+        const dy = clientY - startY;
+        const newLeft = initialLeft + dx;
+        const newTop = Math.max(36, initialTop + dy);
+        win.style.left = `${newLeft}px`;
+        win.style.top = `${newTop}px`;
+      }
+
+      function endDrag() {
+        isDragging = false;
+      }
+
+      // Mouse events
+      header.addEventListener('mousedown', (e) => {
+        startDrag(e.clientX, e.clientY, e.target);
+        const onMouseMove = (ev) => moveDrag(ev.clientX, ev.clientY);
+        const onMouseUp = () => {
+          endDrag();
+          document.removeEventListener('mousemove', onMouseMove);
+          document.removeEventListener('mouseup', onMouseUp);
+        };
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+      });
+
+      // Touch events
+      header.addEventListener('touchstart', (e) => {
+        if (e.touches.length !== 1) return;
+        startDrag(e.touches[0].clientX, e.touches[0].clientY, e.target);
+      }, { passive: true });
+
+      header.addEventListener('touchmove', (e) => {
+        if (!isDragging || e.touches.length !== 1) return;
+        e.preventDefault();
+        moveDrag(e.touches[0].clientX, e.touches[0].clientY);
+      }, { passive: false });
+
+      header.addEventListener('touchend', endDrag);
+    }
+
+    // Re-clamp top boundary on viewport resize
+    window.addEventListener('resize', () => {
+      Object.values(openWindows).forEach((win) => {
+        if (win.style.display !== 'none') clampWindowToViewport(win);
+      });
+    });
+
+    /* =========================================================================
+       7. SMOOTH 2D MAGNETIC LETTER HOVER FOR "portfolio."
+       ========================================================================= */
+    (() => {
+      const h1 = document.getElementById('portfolio-title');
+      if (!h1) return;
+
+      const word = h1.textContent.trim();
+      h1.setAttribute('aria-label', word);
+      h1.innerHTML = [...word]
+        .map((ch) => `<span class="hero-ltr" aria-hidden="true">${ch}</span>`)
+        .join('');
+
+      const letters = [...h1.querySelectorAll('.hero-ltr')];
+      const reach = 170; // px radius of magnetic influence
+      const maxGrow = 0.42; // 42% scale boost at center
+
+      // Cache resting centers so margin shifts never cause feedback jitter
+      let baseCenters = [];
+      function measureBaseCenters() {
+        letters.forEach((l) => {
+          l.style.transform = '';
+          l.style.marginInline = '';
+        });
+        baseCenters = letters.map((l) => {
+          const r = l.getBoundingClientRect();
+          return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+        });
+      }
+
+      // Wait for webfont to load before measuring resting letter centers
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(measureBaseCenters);
+      } else {
+        window.addEventListener('load', measureBaseCenters);
+      }
+      window.addEventListener('resize', measureBaseCenters);
+
+      function resetLetters() {
+        letters.forEach((l) => {
+          l.style.transform = '';
+          l.style.marginInline = '';
+          l.style.color = '';
+        });
+      }
+
+      window.addEventListener('pointermove', (e) => {
+        if (e.pointerType === 'touch') return;
+        if (!baseCenters.length) measureBaseCenters();
+
+        letters.forEach((l, idx) => {
+          const c = baseCenters[idx];
+          const dist = Math.hypot(e.clientX - c.x, e.clientY - c.y);
+          const t = Math.max(0, 1 - dist / reach);
+          const ease = t * t * (3 - 2 * t);
+
+          if (ease > 0.001) {
+            l.style.transform = `translateY(${(-ease * 7).toFixed(2)}px) scale(${(1 + ease * maxGrow).toFixed(4)})`;
+            l.style.marginInline = `${(ease * 0.1).toFixed(4)}em`;
+            l.style.color = ease > 0.5 ? '#d87c9f' : '';
+          } else {
+            l.style.transform = '';
+            l.style.marginInline = '';
+            l.style.color = '';
+          }
+        });
+      });
+
+      document.documentElement.addEventListener('pointerleave', resetLetters);
+      window.addEventListener('blur', resetLetters);
+    })();
+  </script>
+</body>
+</html>
